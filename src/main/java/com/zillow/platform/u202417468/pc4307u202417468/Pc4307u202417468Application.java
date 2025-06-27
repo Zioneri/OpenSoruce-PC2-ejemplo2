@@ -2,8 +2,10 @@ package com.zillow.platform.u202417468.pc4307u202417468;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class Pc4307u202417468Application {
 
 	public static void main(String[] args) {

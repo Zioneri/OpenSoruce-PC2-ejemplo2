@@ -14,6 +14,12 @@ import com.zillow.platform.u202417468.pc4307u202417468.missions.infrastructure.p
 import com.zillow.platform.u202417468.pc4307u202417468.regulations.infrastructure.persistence.jpa.repositories.OrbitThresholdsRepository;
 import com.zillow.platform.u202417468.pc4307u202417468.shared.domain.model.events.OrbitWindowUnderutilizedEvent;
 
+/**
+ * Implementation of MissionAssignmentsCommandService.
+ * Handles mission assignment creation with business logic validation.
+ * 
+ * @author Franco Estefano Chavez de la Cruz
+ */
 @Service
 public class MissionAssignmentsCommandServiceImpl implements MissionAssignmentsCommandService {
     private final MissionAssignmentsRepository missionAssignmentsRepository;
@@ -33,6 +39,8 @@ public class MissionAssignmentsCommandServiceImpl implements MissionAssignmentsC
     public Optional<MissionAssignments> handle(CreateMissionAssignmentsCommand command) {
         UUID uuid = UUID.fromString(command.satelliteCode());
 
+        // Business rule: No two mission assignments with same satelliteCode on the same
+        // day
         LocalDateTime startOfDay = command.requestedAt().toLocalDate().atStartOfDay();
         LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
 

@@ -20,4 +20,15 @@ public class OrbitThresholds extends AuditableAbstractAggregateRoot<OrbitThresho
     @NotNull(message = "maxSafeDuration is required")
     @Positive(message = "maxSafeDuration must be a positive number")
     private Integer maxSafeDuration;
+
+    public OrbitThresholds(String orbitClass, Integer maxSafeDuration) {
+        if (orbitClass == null || orbitClass.isBlank()) {
+            throw new IllegalArgumentException("orbitClass cannot be null or blank");
+        }
+        if (maxSafeDuration == null || maxSafeDuration <= 0) {
+            throw new IllegalArgumentException("maxSafeDuration must be positive");
+        }
+        this.orbitClass = orbitClass;
+        this.maxSafeDuration = maxSafeDuration;
+    }
 }

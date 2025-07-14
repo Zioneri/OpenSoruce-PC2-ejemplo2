@@ -9,6 +9,14 @@ import com.zillow.platform.u202417468.pc4307u202417468.monitoring.domain.model.c
 import com.zillow.platform.u202417468.pc4307u202417468.monitoring.domain.services.AlertsCommandService;
 import com.zillow.platform.u202417468.pc4307u202417468.monitoring.infrastructure.persistence.jpa.repositories.AlertsRepository;
 
+/**
+ * Implementation of alerts command service handling alert creation and
+ * persistence.
+ * Manages alert validation, creation logic, and data persistence within the
+ * monitoring context.
+ * 
+ * @author Fabrizzio Pereira – Code: U202417468
+ */
 @Service
 public class AlertsCommandServiceImpl implements AlertsCommandService {
     private final AlertsRepository alertsRepository;
@@ -17,6 +25,13 @@ public class AlertsCommandServiceImpl implements AlertsCommandService {
         this.alertsRepository = alertsRepository;
     }
 
+    /**
+     * Creates a new alert with validation and persistence.
+     * Validates alert data and stores the alert in the monitoring system.
+     * 
+     * @param command the command containing alert creation data
+     * @return Optional containing the created alert, or empty if creation failed
+     */
     @Override
     public Optional<Alerts> handle(CreateAlertsCommand command) {
         Alerts alert = new Alerts(command);

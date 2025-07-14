@@ -17,6 +17,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Alert aggregate root representing system alerts within the monitoring bounded
+ * context.
+ * Encapsulates alert creation, type management, and satellite code validation
+ * for
+ * monitoring satellite operations and system events.
+ * 
+ * @author Fabrizzio Pereira – Code: U202417468
+ */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,6 +39,14 @@ public class Alerts extends AuditableAbstractAggregateRoot<Alerts> {
 
     private LocalDateTime registeredAt;
 
+    /**
+     * Creates a new alert with validation of satellite code and alert type.
+     * Automatically sets registration timestamp and validates business rules.
+     * 
+     * @param command the command containing alert creation data
+     * @throws IllegalArgumentException if satellite code is invalid or alert type
+     *                                  is unknown
+     */
     public Alerts(CreateAlertsCommand command) {
         try {
             UUID uuid = UUID.fromString(command.satelliteCode());

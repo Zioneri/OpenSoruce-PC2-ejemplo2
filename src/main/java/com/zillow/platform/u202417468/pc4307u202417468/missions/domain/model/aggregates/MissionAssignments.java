@@ -19,6 +19,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Mission Assignment aggregate root representing a satellite mission assignment
+ * within the missions bounded context.
+ * This aggregate encapsulates all business rules and invariants related to
+ * mission assignments,
+ * including validation of satellite codes, duration constraints, and status
+ * management.
+ * 
+ * @author Fabrizzio Pereira – Code: U202417468
+ */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,6 +50,14 @@ public class MissionAssignments extends AuditableAbstractAggregateRoot<MissionAs
     @NotNull(message = "requestedAt is required")
     private LocalDateTime requestedAt;
 
+    /**
+     * Creates a new mission assignment with all business rule validations.
+     * Validates satellite code format, duration constraints, status values, and
+     * temporal rules.
+     * 
+     * @param command the command containing mission assignment data
+     * @throws IllegalArgumentException if any validation rule is violated
+     */
     public MissionAssignments(CreateMissionAssignmentsCommand command) {
         try {
             UUID uuid = UUID.fromString(command.satelliteCode());

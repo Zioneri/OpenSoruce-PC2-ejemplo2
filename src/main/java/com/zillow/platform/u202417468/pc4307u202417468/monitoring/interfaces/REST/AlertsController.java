@@ -14,6 +14,13 @@ import com.zillow.platform.u202417468.pc4307u202417468.monitoring.interfaces.RES
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * REST controller for alert operations within the monitoring bounded context.
+ * Provides HTTP endpoints for alert retrieval and monitoring system access,
+ * handling request processing and response formatting for alert data.
+ * 
+ * @author Fabrizzio Pereira – Code: U202417468
+ */
 @RestController
 @RequestMapping(value = "/api/v1/alerts", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Alerts", description = "Alert Management Endpoints")
@@ -24,6 +31,13 @@ public class AlertsController {
         this.alertsQueryService = alertsQueryService;
     }
 
+    /**
+     * Retrieves all alerts from the monitoring system via HTTP GET request.
+     * Provides comprehensive access to alert data for monitoring and analysis
+     * purposes.
+     * 
+     * @return List of alert resources containing all system alerts
+     */
     @GetMapping
     public List<AlertResource> getAllAlerts() {
         var query = new GetAllAlertsQuery();

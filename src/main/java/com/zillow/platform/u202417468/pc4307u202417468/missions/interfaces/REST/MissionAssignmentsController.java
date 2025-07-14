@@ -17,6 +17,14 @@ import com.zillow.platform.u202417468.pc4307u202417468.missions.interfaces.REST.
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * REST controller for mission assignment operations within the missions bounded
+ * context.
+ * Provides HTTP endpoints for mission assignment creation and management,
+ * handling request/response transformation and HTTP status management.
+ * 
+ * @author Fabrizzio Pereira – Code: U202417468
+ */
 @RestController
 @RequestMapping(value = "/api/v1/mission-assignments", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Mission Assignments", description = "Mission Assignment Management Endpoints")
@@ -27,6 +35,15 @@ public class MissionAssignmentsController {
         this.missionAssignmentsCommandService = missionAssignmentsCommandService;
     }
 
+    /**
+     * Creates a new mission assignment through HTTP POST request.
+     * Validates input data, processes business rules, and returns appropriate HTTP
+     * responses.
+     * 
+     * @param resource the mission assignment creation request data
+     * @return ResponseEntity containing the created mission assignment or error
+     *         status
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MissionAssignmentResource> createMission(

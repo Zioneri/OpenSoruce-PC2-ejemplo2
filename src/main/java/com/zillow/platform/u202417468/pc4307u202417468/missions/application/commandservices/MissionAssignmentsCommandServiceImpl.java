@@ -15,10 +15,15 @@ import com.zillow.platform.u202417468.pc4307u202417468.regulations.infrastructur
 import com.zillow.platform.u202417468.pc4307u202417468.shared.domain.model.events.OrbitWindowUnderutilizedEvent;
 
 /**
- * Implementation of MissionAssignmentsCommandService.
- * Handles mission assignment creation with business logic validation.
+ * Implementation of mission assignment command service handling business logic
+ * and validation.
+ * Manages mission assignment creation, duplicate prevention, and orbital
+ * utilization monitoring.
+ * Integrates with regulations context for orbital threshold validation and
+ * publishes domain events
+ * for cross-context communication.
  * 
- * @author Franco Estefano Chavez de la Cruz
+ * @author Fabrizzio Pereira – Code: U202417468
  */
 @Service
 public class MissionAssignmentsCommandServiceImpl implements MissionAssignmentsCommandService {
@@ -35,6 +40,15 @@ public class MissionAssignmentsCommandServiceImpl implements MissionAssignmentsC
         this.eventPublisher = eventPublisher;
     }
 
+    /**
+     * Creates a new mission assignment with comprehensive business rule validation.
+     * Enforces single assignment per satellite per day and triggers orbital
+     * utilization analysis.
+     * 
+     * @param command the command containing mission assignment data
+     * @return Optional containing the created mission assignment, or empty if
+     *         validation fails
+     */
     @Override
     public Optional<MissionAssignments> handle(CreateMissionAssignmentsCommand command) {
         UUID uuid = UUID.fromString(command.satelliteCode());
@@ -59,6 +73,14 @@ public class MissionAssignmentsCommandServiceImpl implements MissionAssignmentsC
         return Optional.of(mission);
     }
 
+    /**
+     * Analyzes mission duration against orbital safety thresholds and triggers
+     * alerts for suboptimal utilization.
+     * Publishes OrbitWindowUnderutilizedEvent when estimated duration is below 20%
+     * of maximum safe duration.
+     * 
+     * @param mission the mission assignment to analyze
+     */
     private void checkForSuboptimalUtilization(MissionAssignments mission) {
         var orbitThreshold = orbitThresholdsRepository.findByOrbitClassIgnoreCase(mission.getOrbitClass());
 

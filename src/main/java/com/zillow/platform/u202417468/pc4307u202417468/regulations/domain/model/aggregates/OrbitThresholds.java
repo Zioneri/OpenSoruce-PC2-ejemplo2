@@ -10,6 +10,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Orbit Threshold aggregate root representing orbital safety regulations within
+ * the regulations bounded context.
+ * Defines maximum safe operation durations for different orbital classes and
+ * enforces
+ * safety constraints for satellite mission planning and execution.
+ * 
+ * @author Fabrizzio Pereira – Code: U202417468
+ */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,6 +30,17 @@ public class OrbitThresholds extends AuditableAbstractAggregateRoot<OrbitThresho
     @Positive(message = "maxSafeDuration must be a positive number")
     private Integer maxSafeDuration;
 
+    /**
+     * Creates a new orbit threshold with validation of orbital class and safety
+     * duration.
+     * Enforces business rules for valid orbital classifications and positive safety
+     * durations.
+     * 
+     * @param orbitClass      the orbital class designation (LEO, MEO, GEO)
+     * @param maxSafeDuration the maximum safe operational duration for the orbital
+     *                        class
+     * @throws IllegalArgumentException if validation rules are violated
+     */
     public OrbitThresholds(String orbitClass, Integer maxSafeDuration) {
         if (orbitClass == null || orbitClass.isBlank()) {
             throw new IllegalArgumentException("orbitClass cannot be null or blank");
